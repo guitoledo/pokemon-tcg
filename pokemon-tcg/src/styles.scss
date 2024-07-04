@@ -1,3 +1,18 @@
+@use "igniteui-angular/theming" as igx;
+
+// Defina sua paleta de cores personalizada
+$primary: #731963 !default;
+$secondary: #c6521b !default;
+$surface: #f5f5f5 !default;
+$app-palette: igx.palette($primary, $secondary, $surface);
+
+// Inclua os estilos essenciais do Ignite UI
+@include igx.core();
+@include igx.theme($app-palette);
+
+// CSS Reset, comente se não for necessário ou se estiver usando um módulo diferente
+@import 'minireset.css/minireset';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

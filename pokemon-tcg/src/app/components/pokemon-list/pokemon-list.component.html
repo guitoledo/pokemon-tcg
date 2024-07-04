@@ -1,0 +1,46 @@
+<div class="pokemon-list">
+    <header class="flex justify-end p-4 shadow-md space-x-4">
+      <div>
+        <button (click)="onCreateDeck()" igxButton="outlined">
+          Criar Novo Baralho
+        </button>
+      </div>
+    </header>
+  
+    <ng-container *ngIf="viewMode === 'list'; else decksTemplate">
+      <div class="flex justify-center p-4">
+        <h1 class="text-2xl font-bold">
+          Listagem de todas as cartas
+        </h1>
+      </div>
+      <ng-container *ngIf="cards$ | async as cards">
+        <div class="flex justify-center pt-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <igx-card *ngFor="let card of cards" class="max-w-xs cursor-pointer">
+              <igx-card-header>
+                <h3 class="font-bold text-lg">{{ card.name }}</h3>
+              </igx-card-header>
+              <igx-card-content>
+                <img [src]="card.imageUrl" alt="{{ card.name }}" class="w-full h-auto">
+              </igx-card-content>
+            </igx-card>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  
+    <ng-template #decksTemplate>
+      <div class="decks-list grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
+        <div *ngFor="let deck of decks; let i = index" class="deck-card border rounded p-4 shadow-md">
+          <h3 class="font-bold text-lg">{{ deck.deckName }}</h3>
+          <div class="flex justify-end space-x-2 mt-4">
+            <button (click)="onEditDeck(deck, i)" igxButton="outlined">Editar</button>
+            <button (click)="onRemoveDeck(i)" igxButton="outlined" class="bg-red-500 text-white">Remover</button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+  
+  <app-create-deck-modal #createDeckModal (deckCreated)="onDeckCreated($event)"></app-create-deck-modal>
+  

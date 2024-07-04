@@ -18,8 +18,12 @@
     "@angular/platform-browser": "^18.0.0",
     "@angular/platform-browser-dynamic": "^18.0.0",
     "@angular/router": "^18.0.0",
+    "@igniteui/material-icons-extended": "^3.0.0",
+    "fflate": "^0.8.1",
     "igniteui-angular": "^18.0.4",
+    "minireset.css": "~0.0.4",
     "rxjs": "~7.8.0",
+    "sass": "^1.77.6",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
   },
