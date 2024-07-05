@@ -1,50 +1,48 @@
-<igx-dialog #dialog width="95%" height="95%">
-    <form [formGroup]="createDeckForm" (ngSubmit)="onSubmit()">
-      <div class="overflow-y-auto h-full p-4">
-        <div class="mb-4">
-          <label for="deckName" class="block text-sm font-medium text-gray-700">Nome do Baralho</label>
-          <input 
-            type="text" 
-            id="deckName" 
-            formControlName="deckName" 
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            (blur)="onDeckNameBlur()">
-          <span *ngIf="isDeckNameInvalid" class="text-red-500 text-xs mt-1">Nome do baralho é obrigatório.</span>
-        </div>
-        <div class="mb-4">
-          <label class="block text-sm font-medium text-gray-700">Adicionar Cartas <span class="text-red-500">(O baralho tem que ter no mínimo 24 cartas e no máximo 60)</span></label>
-          <label class="block text-sm font-medium text-gray-700">Cartas selecionadas: <span class="text-red-500">{{selectedCards.length}}</span></label>
-        </div>
-        <div class="mb-4 h-[calc(100vh-300px)] overflow-y-auto">
-          <div *ngIf="cards$ | async as cards" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-            <igx-card *ngFor="let card of cards" class="max-w-xs cursor-pointer" (click)="toggleCardSelection(card)">
-              <igx-card-header>
-                <h3 class="font-bold text-sm">{{ card.name }}</h3>
-              </igx-card-header>
-              <img [src]="card.imageUrl" alt="{{ card.name }}" class="w-full h-auto">
-              <igx-card-content>
-                <p class="text-xs">{{ card.supertype }}</p>
-              </igx-card-content>
-              <igx-card-actions>
-                <span *ngIf="isCardSelected(card)" class="text-blue-500" (click)="removeCard(card, $event)">Remover carta</span>
-              </igx-card-actions>
-            </igx-card>
-          </div>
-        </div>
-        <div class="flex justify-end space-x-2 mt-4">
-          <button type="button" (click)="dialog?.close()" class="px-4 py-2 bg-gray-500 text-white rounded-md">Cancelar</button>
-          <button 
-            type="submit" 
-            class="px-4 py-2 rounded-md"
-            [ngClass]="{
-              'bg-blue-500 text-white': selectedCards.length >= 24,
-              'bg-gray-300 text-gray-500 cursor-not-allowed': selectedCards.length < 24
-            }"
-            [disabled]="selectedCards.length < 24">
-            Salvar
-          </button>
+<igx-dialog class="bg-gray-100 shadow-lg" #dialog width="80%" height="80%">
+  <form [formGroup]="createDeckForm" (ngSubmit)="onSubmit()">
+    <div class="overflow-y-auto h-full p-4">
+      <div class="mb-4">
+        <label for="deckName" class="block text-sm font-medium text-gray-700">Nome do Baralho</label>
+        <input 
+          type="text" 
+          id="deckName" 
+          formControlName="deckName" 
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          (blur)="onDeckNameBlur()">
+        <span *ngIf="isDeckNameInvalid" class="text-red-500 text-xs mt-1">Nome do baralho é obrigatório.</span>
+      </div>
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">Adicionar Cartas <span class="text-red-500">(O baralho tem que ter no mínimo 24 cartas e no máximo 60)</span></label>
+        <label class="block text-sm font-medium text-gray-700">Cartas selecionadas: <span class="text-red-500">{{selectedCards.length}}</span></label>
+      </div>
+      <div class="mb-4 h-[calc(100vh-300px)] overflow-y-auto">
+        <div *ngIf="cards$ | async as cards" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+          <igx-card *ngFor="let card of cards" class="max-w-xs cursor-pointer bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300" (click)="toggleCardSelection(card)">
+            <igx-card-header>
+              <h3 class="font-bold text-sm mb-2">{{ card.name }}</h3>
+            </igx-card-header>
+            <igx-card-content>
+              <img [src]="card.imageUrl" alt="{{ card.name }}" class="w-full h-auto rounded-lg">
+            </igx-card-content>
+            <igx-card-actions>
+              <span *ngIf="isCardSelected(card)" class="text-red-500" (click)="removeCard(card, $event)">Remover carta</span>
+            </igx-card-actions>
+          </igx-card>
         </div>
       </div>
-    </form>
-  </igx-dialog>
-  
+      <div class="flex justify-end space-x-2 mt-4">
+        <button type="button" (click)="dialog?.close()" class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">Cancelar</button>
+        <button 
+          type="submit" 
+          class="px-4 py-2 rounded-md"
+          [ngClass]="{
+            'bg-blue-500 text-white hover:bg-blue-600': selectedCards.length >= 24,
+            'bg-gray-300 text-gray-500 cursor-not-allowed': selectedCards.length < 24
+          }"
+          [disabled]="selectedCards.length < 24">
+          Salvar
+        </button>
+      </div>
+    </div>
+  </form>
+</igx-dialog>

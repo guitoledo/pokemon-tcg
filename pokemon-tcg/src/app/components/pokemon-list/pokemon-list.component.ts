@@ -1,9 +1,10 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { PokemonTcgService } from '../../../services/pokemon-tcg.service';
-import { IgxButtonModule, IgxCardModule, IgxDialogModule } from 'igniteui-angular';
+import { IgxButtonModule, IgxCardModule, IgxDialogModule, IgxIconModule } from 'igniteui-angular';
 import { CommonModule } from '@angular/common';
 import { CreateDeckModalComponent } from '../create-deck-modal/create-deck-modal.component';
+import { PokemonDetailsComponent } from '../pokemon-details/pokemon-details.component';
 
 interface Deck {
   deckName: string;
@@ -12,7 +13,7 @@ interface Deck {
 
 @Component({
   selector: 'app-pokemon-list',
-  imports: [CommonModule, IgxCardModule, IgxButtonModule, IgxDialogModule, CreateDeckModalComponent],
+  imports: [CommonModule, IgxCardModule, IgxButtonModule, IgxDialogModule, CreateDeckModalComponent, PokemonDetailsComponent, IgxIconModule],
   standalone: true,
   templateUrl: './pokemon-list.component.html',
   styleUrls: ['./pokemon-list.component.scss']
@@ -31,6 +32,7 @@ export class PokemonListComponent implements OnInit {
   public uniqueTypesCount: number = 0;
 
   @ViewChild('createDeckModal', { static: true }) private createDeckModal?: CreateDeckModalComponent;
+  @ViewChild('pokemonDetails', { static: true }) private pokemonDetails?: PokemonDetailsComponent;
 
   constructor(private pokemonTcgService: PokemonTcgService) {}
 
@@ -72,4 +74,8 @@ export class PokemonListComponent implements OnInit {
       this.viewMode = 'list'; 
     }
   }
+
+  public onOpenDetails(deck: Deck) {
+    this.pokemonDetails?.open(deck);
+  } 
 }
