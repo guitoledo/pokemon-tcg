@@ -48,6 +48,6 @@ A arquitetura do projeto segue o padrão de Componentes do Angular, dividido nas
 - **TypeScript**: Linguagem de programação usada para desenvolver a aplicação.
 - **Node.js & npm**: Ambiente de execução e gerenciador de pacotes.
 
-![Pokemon](https://imgur.com/gallery/pokemon-LdvjT50)
+![Pokemon](https://imgur.com/a/LdvjT50)
 
 
