@@ -17,7 +17,10 @@
       </div>
       <div class="mb-4 h-[calc(100vh-300px)] overflow-y-auto">
         <div *ngIf="cards$ | async as cards" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-          <igx-card *ngFor="let card of cards" class="max-w-xs cursor-pointer bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300" (click)="toggleCardSelection(card)">
+          <igx-card *ngFor="let card of cards" 
+                    class="max-w-xs cursor-pointer bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300" 
+                    [ngClass]="{'bg-yellow-100 border-yellow-300': isCardSelected(card), 'hover:bg-gray-100': !isCardSelected(card)}"
+                    (click)="toggleCardSelection(card)">
             <igx-card-header>
               <h3 class="font-bold text-sm mb-2">{{ card.name }}</h3>
             </igx-card-header>
