@@ -2,13 +2,13 @@ import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core
 import { FormArray, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { IgxCardModule, IgxCheckboxModule, IgxDialogComponent, IgxDialogModule } from 'igniteui-angular';
+import { IgxCardModule, IgxCheckboxModule, IgxDialogComponent, IgxDialogModule, IgxSnackbarComponent } from 'igniteui-angular';
 import { PokemonTcgService } from '../../../services/pokemon-tcg.service';
 
 @Component({
   selector: 'app-create-deck-modal',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, IgxCheckboxModule, IgxCardModule, IgxDialogModule],
+  imports: [ReactiveFormsModule, CommonModule, IgxCheckboxModule, IgxCardModule, IgxDialogModule, IgxSnackbarComponent],
   templateUrl: './create-deck-modal.component.html',
   styleUrls: ['./create-deck-modal.component.scss']
 })
@@ -18,6 +18,8 @@ export class CreateDeckModalComponent {
   public isDeckNameInvalid: boolean = false;
 
   @ViewChild(IgxDialogComponent, { static: true }) public dialog?: IgxDialogComponent;
+  @ViewChild(IgxSnackbarComponent, { static: true }) public snackbar?: IgxSnackbarComponent;
+
 
   @Output() deckCreated = new EventEmitter<{ deckName: string, selectedCards: any[] }>();
 
@@ -47,10 +49,15 @@ export class CreateDeckModalComponent {
   }
 
   public onSubmit() {
+    if (this.selectedCards.length > 60) {
+      this.snackbar?.open('O baralho deve ter no máximo 60 cartas.');
+      return;
+    }
+  
     if (this.createDeckForm.valid) {
-      this.deckCreated.emit({ 
-        deckName: this.createDeckForm.value.deckName, 
-        selectedCards: this.selectedCards.value 
+      this.deckCreated.emit({
+        deckName: this.createDeckForm.value.deckName,
+        selectedCards: this.selectedCards.value
       });
       this.dialog?.close();
     }
