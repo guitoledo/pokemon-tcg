@@ -18,15 +18,18 @@
       <div class="mb-4 h-[calc(100vh-300px)] overflow-y-auto">
         <div *ngIf="cards$ | async as cards" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
           <igx-card *ngFor="let card of cards" 
-              class="max-w-xs cursor-pointer bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300" 
-              [ngClass]="{'bg-gray-200 border-gray-300': isCardSelected(card), 'hover:bg-gray-100': !isCardSelected(card)}">
+                    class="max-w-xs cursor-pointer bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300" 
+                    [ngClass]="{'bg-yellow-100 border-yellow-300': isCardSelected(card), 'hover:bg-gray-100': !isCardSelected(card)}"
+                    (click)="toggleCardSelection(card)">
+            <igx-card-header>
+              <h3 class="font-bold text-sm mb-2">{{ card.name }}</h3>
+            </igx-card-header>
             <igx-card-content>
               <img [src]="card.imageUrl" alt="{{ card.name }}" class="w-full h-auto rounded-lg">
             </igx-card-content>
-            <div class="justify-between flex p-2">
-              <button igxButton="flat" class="bg-green-500 text-white px-2 py-1 rounded-md hover:bg-green-600" (click)="toggleCardSelection(card)">Adicionar</button>
-              <button igxButton="flat" *ngIf="isCardSelected(card)" class="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600" (click)="removeCard(card, $event)">Remover carta</button>
-            </div>
+            <igx-card-actions>
+              <span *ngIf="isCardSelected(card)" class="text-red-500" (click)="removeCard(card, $event)">Remover carta</span>
+            </igx-card-actions>
           </igx-card>
         </div>
       </div>
