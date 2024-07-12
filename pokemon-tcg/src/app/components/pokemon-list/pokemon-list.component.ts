@@ -1,8 +1,8 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IgxButtonModule, IgxCardModule, IgxDialogModule, IgxIconModule } from 'igniteui-angular';
 import { Observable, of } from 'rxjs';
 import { PokemonTcgService } from '../../../services/pokemon-tcg.service';
-import { IgxButtonModule, IgxCardModule, IgxDialogModule, IgxIconModule } from 'igniteui-angular';
-import { CommonModule } from '@angular/common';
 import { CreateDeckModalComponent } from '../create-deck-modal/create-deck-modal.component';
 import { PokemonDetailsComponent } from '../pokemon-details/pokemon-details.component';
 

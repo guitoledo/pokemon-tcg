@@ -1,14 +1,15 @@
-import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { IgxCardModule, IgxCheckboxModule, IgxDialogComponent, IgxDialogModule, IgxSnackbarComponent } from 'igniteui-angular';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { IgxButtonModule, IgxCardModule, IgxCheckboxModule, IgxDialogComponent, IgxDialogModule, IgxRippleModule, IgxSnackbarComponent } from 'igniteui-angular';
+import { Observable } from 'rxjs';
 import { PokemonTcgService } from '../../../services/pokemon-tcg.service';
+import { PokemonViewComponent } from '../pokemon-view/pokemon-view.component';
 
 @Component({
   selector: 'app-create-deck-modal',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, IgxCheckboxModule, IgxCardModule, IgxDialogModule, IgxSnackbarComponent],
+  imports: [ReactiveFormsModule, CommonModule, IgxCheckboxModule, IgxCardModule, IgxDialogModule, IgxSnackbarComponent, PokemonViewComponent, IgxButtonModule, IgxRippleModule],
   templateUrl: './create-deck-modal.component.html',
   styleUrls: ['./create-deck-modal.component.scss']
 })
@@ -16,10 +17,11 @@ export class CreateDeckModalComponent {
   public cards$: Observable<any[]>;
   public createDeckForm: FormGroup;
   public isDeckNameInvalid: boolean = false;
+  public showPokemonView: boolean = false;
+  public selectedCard: any;
 
   @ViewChild(IgxDialogComponent, { static: true }) public dialog?: IgxDialogComponent;
   @ViewChild(IgxSnackbarComponent, { static: true }) public snackbar?: IgxSnackbarComponent;
-
 
   @Output() deckCreated = new EventEmitter<{ deckName: string, selectedCards: any[] }>();
 
@@ -54,6 +56,11 @@ export class CreateDeckModalComponent {
       return;
     }
   
+    if (!this.createDeckForm.get('deckName')?.value) {
+      this.snackbar?.open('O nome do baralho é obrigatório.');
+      return;
+    }
+  
     if (this.createDeckForm.valid) {
       this.deckCreated.emit({
         deckName: this.createDeckForm.value.deckName,
@@ -61,7 +68,7 @@ export class CreateDeckModalComponent {
       });
       this.dialog?.close();
     }
-  }
+  }  
 
   public onDeckNameBlur() {
     this.isDeckNameInvalid = this.createDeckForm.get('deckName')?.invalid && this.createDeckForm.get('deckName')?.touched || false;
@@ -99,5 +106,16 @@ export class CreateDeckModalComponent {
   public resetForm() {
     this.createDeckForm.reset();
     this.selectedCards.clear();
+  }
+
+  public onView(card: any) {
+    this.showPokemonView = true;
+    this.selectedCard = card;
+  }
+
+  public closeView(event: Event) {
+    event.stopPropagation();
+    this.showPokemonView = false;
+    this.selectedCard = null;
   }
 }

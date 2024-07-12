@@ -1,0 +1,5 @@
+<div *ngIf="selectedCard">
+    <img [src]="selectedCard.imageUrl" alt="{{ selectedCard.name }}">
+  </div>
+  <p *ngIf="!selectedCard">Nenhuma carta selecionada.</p>
+  
